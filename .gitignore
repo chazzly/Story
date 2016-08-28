@@ -1,0 +1,14 @@
+# Created by .ignore support plugin (hsz.mobi)
+
+# IntelliJ project files
+.idea
+*.iml
+out
+
+# OSX template
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Unconverted images
+images/*.JPG
