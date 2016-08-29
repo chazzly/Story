@@ -32,6 +32,7 @@ func init() {
 }
 
 type titleImageParts struct {
+	name string
 	image *ebiten.Image
 	count int
 }
@@ -63,14 +64,14 @@ type TitleScene struct {
 
 func NewTitleScene() *TitleScene {
 	return &TitleScene{
-		parts: &titleImageParts{titleBackground, 0},
+		parts: &titleImageParts{"Title", titleBackground, 0},
 	}
 }
 
 func (s *TitleScene) Update(state *GameState) error {
 	s.count++
 	if state.Input.StateForKey(ebiten.KeySpace) == 1 {
-		state.SceneManager.GoTo(NewOpenerScene())
+		state.SceneManager.GoTo(SceneList[s.parts.name].next)
 		return nil
 	}
 	return nil

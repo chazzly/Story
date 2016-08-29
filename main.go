@@ -1,5 +1,7 @@
 package main
 
+// TODO:  Reduce image sizes and scale them significantly less.
+
 import (
 	"log"
 	"./structure"

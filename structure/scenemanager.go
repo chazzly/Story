@@ -40,12 +40,17 @@ type Scene interface {
 	Draw(screen *ebiten.Image) error
 }
 
+// TODO: Find a programatic
+// func NewScene() Scene {
+// }
+
 const transitionMaxCount = 20
 
 type SceneManager struct {
 	current         Scene
 	next            Scene
 	transitionCount int
+	prev		Scene
 }
 
 func NewSceneManager(initScene Scene) *SceneManager {
