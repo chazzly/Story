@@ -1,10 +1,8 @@
 package main
 
-// TODO:  Reduce image sizes and scale them significantly less.
 // TODO: Sound
 // TODO: Words for the story.
-// TODO: Nav Bar???
-// TODO: Use clicks for forward and back.
+// TODO: Nav Bar  ( adjust click range to match)
 
 import (
 	"log"

@@ -74,6 +74,11 @@ func (s *TitleScene) Update(state *GameState) error {
 		state.SceneManager.GoTo(SceneList[s.parts.name].next)
 		return nil
 	}
+
+	if state.Input.StateForKey(ebiten.Key1) == 1 {
+		state.SceneManager.GoTo(NewDeckScene())
+		return nil
+	}
 	return nil
 }
 

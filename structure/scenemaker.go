@@ -2,9 +2,11 @@ package structure
 
 import (
 	"log"
+	"image/color"
 //	"fmt"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
+	"github.com/hajimehoshi/ebiten/examples/common"
 )
 
 var err error
@@ -32,6 +34,7 @@ type sceneParts struct {
 	name string
 	image *ebiten.Image
 	count int
+	text string
 }
 
 type MyScene struct {
@@ -39,9 +42,9 @@ type MyScene struct {
 	parts *sceneParts
 }
 
-func NewScene(sName, imgName string) *MyScene {
+func NewScene(sName, imgName , stext string) *MyScene {
 	return &MyScene{
-		parts: &sceneParts{sName, Load(imgName), 0},
+		parts: &sceneParts{sName, Load(imgName), 0, stext},
 	}
 }
 
@@ -92,8 +95,13 @@ func inRange(f, min, max int, incl bool) (an bool) {
 func (s *MyScene) Draw(r *ebiten.Image) error {
 	op := &ebiten.DrawImageOptions{}
 	// op.ColorM.Scale(0.5, 0.5, 0.5, 1)
-	op.GeoM.Scale(0.3, 0.3)
 	r.DrawImage(s.parts.image, op)
+
+	x := (ScreenWidth - common.ArcadeFont.TextWidth(s.parts.text)*2) / 2
+	y := ScreenHeight - 48
+	if err := common.ArcadeFont.DrawTextWithShadow(r, s.parts.text, x, y, 2, color.NRGBA{0xa8, 0xbe, 0xf9, 0xff}); err != nil {
+		return err
+	}
 	return nil
 
 	//	mx, my := ebiten.CursorPosition()

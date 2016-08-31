@@ -37,14 +37,10 @@ func NewEmblemScene() *EmblemScene {
 }
 
 func (s *EmblemScene) Update(state *GameState) error {
-	// // To make the emblem pulse
-	//if z >= 0.1 || z <= 0.01 {
-	//	d = d * float64(-1)
-	//}
 	z = z + d
 	d = d + 0.001
 
-	if z > 2.0 {
+	if z > 2.2 {
 		os.Exit(0)
 	}
 
