@@ -7,19 +7,24 @@ import (
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
 	"github.com/hajimehoshi/ebiten/examples/common"
+	"github.com/kr/text"
+	"strings"
 )
 
 var err error
 
 const (
-	nx0 = 500
-	nx1 = 560
-	ny0 = 410
-	ny1 = 450
-	px0 = 40
-	px1 = 100
-	py0 = 410
-	py1 = 450
+	// Arrow - w: 69, h:50
+	awidth = 69
+	aheight = 50
+	nx0 = ScreenWidth - 80
+	nx1 = nx0 + awidth
+	ny0 = ScreenHeight - 55
+	ny1 = ny0 + aheight
+	px0 = 5
+	px1 = px0 + awidth
+	py0 = ny0
+	py1 = ny0 + aheight
 )
 
 func Load(imgName string) (sceneImage *ebiten.Image){
@@ -66,6 +71,7 @@ func (s *MyScene) Update(state *GameState) error {
 		return  nil
 	}
 
+	// TODO: Figure out how to make cursor change over the arrows
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		mx, my := ebiten.CursorPosition()
 		if inRange(mx, nx0, nx1, true) && inRange(my, ny0, ny1, true) {
@@ -94,21 +100,33 @@ func inRange(f, min, max int, incl bool) (an bool) {
 
 func (s *MyScene) Draw(r *ebiten.Image) error {
 	op := &ebiten.DrawImageOptions{}
-	// op.ColorM.Scale(0.5, 0.5, 0.5, 1)
 	r.DrawImage(s.parts.image, op)
 
-	x := (ScreenWidth - common.ArcadeFont.TextWidth(s.parts.text)*2) / 2
-	y := ScreenHeight - 48
-	if err := common.ArcadeFont.DrawTextWithShadow(r, s.parts.text, x, y, 2, color.NRGBA{0xa8, 0xbe, 0xf9, 0xff}); err != nil {
-		return err
-	}
-	return nil
+	var txt []string
 
-	//	mx, my := ebiten.CursorPosition()
-	//
-	//	msg := fmt.Sprintf(`X:  %d
-	//Y: %d`, mx, my)
-	//	if err := ebitenutil.DebugPrint(r, msg); err != nil {
-	//		return err
-	//	}
+	w := len(s.parts.text)
+
+	if w > 90 {
+		// TODO: Create an actual error object and return that.
+	}
+
+	txt = strings.Split(text.Wrap(s.parts.text, 30), "\n")
+
+	for l, t := range txt {
+		x := (ScreenWidth - common.ArcadeFont.TextWidth(t) * 2) / 2
+		y := ScreenHeight - (16 * (3-l))
+		if err := common.ArcadeFont.DrawTextWithShadow(r, t, x, y, 2, color.NRGBA{0xa8, 0xbe, 0xf9, 0xff}); err != nil {
+			return err
+		}
+	}
+
+	rop := &ebiten.DrawImageOptions{}
+	rop.GeoM.Translate( nx0, ny0 )
+	r.DrawImage(rArrow, rop)
+
+	lop := &ebiten.DrawImageOptions{}
+	lop.GeoM.Translate( px0, py0)
+	r.DrawImage(lArrow, lop)
+
+	return nil
 }

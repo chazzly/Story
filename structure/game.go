@@ -15,12 +15,29 @@
 package structure
 
 import (
+	"log"
 	"sync"
 	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/ebitenutil"
 )
 
 const ScreenWidth = 640
 const ScreenHeight = 480
+
+var rArrow, lArrow *ebiten.Image
+
+func init(){
+	rArrow, _, err = ebitenutil.NewImageFromFile("images/rArrow.png", ebiten.FilterLinear)
+	if err != nil {
+		log.Fatal(err)
+	}
+	lArrow, _, err = ebitenutil.NewImageFromFile("images/lArrow.png", ebiten.FilterLinear)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return
+}
 
 type GameState struct {
 	SceneManager *SceneManager

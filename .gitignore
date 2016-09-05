@@ -11,4 +11,4 @@ out
 .LSOverride
 
 # Unconverted images
-images/*.JPG
+images/src
